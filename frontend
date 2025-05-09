@@ -1,0 +1,194 @@
+// File: frontend/src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+
+// File: frontend/src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import Dashboard from './pages/Dashboard';
+import EventPage from './pages/EventPage';
+import TicketPage from './pages/TicketPage';
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/events" element={<EventPage />} />
+        <Route path="/tickets" element={<TicketPage />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+
+
+// File: frontend/src/pages/LoginPage.js
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const LoginPage = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post('http://localhost:5000/api/auth/login', { username, password });
+      alert(res.data.message);
+      navigate('/dashboard');
+    } catch (err) {
+      alert('Login failed');
+    }
+  };
+
+  return (
+    <div>
+      <h2>Login</h2>
+      <input placeholder="Username" onChange={e => setUsername(e.target.value)} />
+      <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+      <button onClick={handleLogin}>Login</button>
+    </div>
+  );
+};
+
+export default LoginPage;
+
+
+// File: frontend/src/pages/RegisterPage.js
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const RegisterPage = () => {
+  const [form, setForm] = useState({ username: '', password: '', club_name: '', club_email: '' });
+  const navigate = useNavigate();
+
+  const handleRegister = async () => {
+    try {
+      await axios.post('http://localhost:5000/api/auth/register', form);
+      alert('Registered successfully');
+      navigate('/');
+    } catch (err) {
+      alert('Registration failed');
+    }
+  };
+
+  return (
+    <div>
+      <h2>Register</h2>
+      <input placeholder="Club Name" onChange={e => setForm({ ...form, club_name: e.target.value })} />
+      <input placeholder="Username" onChange={e => setForm({ ...form, username: e.target.value })} />
+      <input placeholder="Club Email" onChange={e => setForm({ ...form, club_email: e.target.value })} />
+      <input type="password" placeholder="Password" onChange={e => setForm({ ...form, password: e.target.value })} />
+      <button onClick={handleRegister}>Register</button>
+    </div>
+  );
+};
+
+export default RegisterPage;
+
+
+// File: frontend/src/pages/Dashboard.js
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const Dashboard = () => {
+  return (
+    <div>
+      <h2>Dashboard</h2>
+      <Link to="/events">View Events</Link>
+      <br />
+      <Link to="/tickets">Manage Tickets</Link>
+    </div>
+  );
+};
+
+export default Dashboard;
+
+
+// File: frontend/src/pages/EventPage.js
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const EventPage = () => {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/events')
+      .then(res => setEvents(res.data.events))
+      .catch(err => alert('Failed to load events'));
+  }, []);
+
+  return (
+    <div>
+      <h2>All Events</h2>
+      {events.map(event => (
+        <div key={event.Event_id}>
+          <h3>{event.Event_name}</h3>
+          <p>{event.details}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default EventPage;
+
+
+// File: frontend/src/pages/TicketPage.js
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const TicketPage = () => {
+  const [tickets, setTickets] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/tickets')
+      .then(res => setTickets(res.data.tickets))
+      .catch(err => alert('Failed to fetch tickets'));
+  }, []);
+
+  return (
+    <div>
+      <h2>Tickets</h2>
+      {tickets.map(ticket => (
+        <div key={ticket.ticket_id}>
+          <h4>{ticket.subject}</h4>
+          <p>{ticket.message}</p>
+          <small>Status: {ticket.status}</small>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default TicketPage;
+
+
+// File: frontend/package.json
+{
+  "name": "eventifyy-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^1.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.2"
+  },
+  "scripts": {
+    "start": "react-scripts start"
+  }
+}
