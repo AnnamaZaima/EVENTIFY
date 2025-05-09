@@ -1,0 +1,20 @@
+Eventifyy/
+├── backend/
+│   ├── app.py
+│   ├── models.py
+│   ├── db_config.py
+│   ├── routes/
+│   │   ├── auth_routes.py
+│   │   ├── event_routes.py
+│   │   └── ticket_routes.py
+│   └── __init__.py
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── App.js
+│   │   └── index.js
+│   └── package.json
+├── requirements.txt
+└── README.md
