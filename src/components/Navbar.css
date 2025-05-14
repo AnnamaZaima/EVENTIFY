@@ -1,0 +1,140 @@
+/* Navbar.css */
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --text-color: #ecf0f1;
+  --hover-color: #2980b9;
+  --danger-color: #e74c3c;
+  --danger-hover: #c0392b;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.brand-link {
+  color: var(--text-color);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.3s;
+}
+
+.brand-link:hover {
+  opacity: 0.9;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 1.5rem;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  color: var(--text-color);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.navbar-end {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.profile-link:hover {
+  opacity: 0.9;
+}
+
+.profile-icon {
+  color: var(--text-color);
+}
+
+.profile-name {
+  font-size: 0.9rem;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logout-btn {
+  background-color: var(--danger-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: var(--danger-hover);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .navbar-menu {
+    margin: 1rem 0;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .nav-link {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .nav-icon {
+    font-size: 1rem;
+  }
+}
